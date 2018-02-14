@@ -54,9 +54,7 @@ def train(data):
     data['weighted_rating'] = data.apply(compute_weighted_rating,axis=1)
     
     
-    data['video_bins'] = pd.qcut(data['weighted_rating'],
-                                 q=3,
-                                 labels=["below","good","excellent"])
+    data['video_bins'] = data.apply(assign_category_band,axis=1)
     
     data['tags'] = data['tags'].apply(remove_punctuation)
     data['title']= data['title'].apply(remove_punctuation)
@@ -179,6 +177,14 @@ def assign_salary_band(row):
     if row['median_salary'] < 30495.769:
         return 'low'
     elif row['median_salary'] < 38787.259:
+        return 'good'
+    else:
+        return 'excellent'
+    
+def assign_category_band(row):
+    if row['weighted_rating'] < 36672.99148165:
+        return 'below'
+    elif row['weighted_rating'] < 40519.91515646:
         return 'good'
     else:
         return 'excellent'
