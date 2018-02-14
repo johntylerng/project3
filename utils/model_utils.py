@@ -21,8 +21,8 @@ MODEL_FILE_NAME = '%s/model.pkl' %(MODEL_DIRECTORY)
 DATA_FILE_PATH = 'data/'
 MODEL_COLUMNS_FILE_NAME = '%s/model_columns.pkl' % MODEL_DIRECTORY
 
-
-
+total_vote_average=0
+average_rating =0
 
 
 
