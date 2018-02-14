@@ -17,7 +17,7 @@ TEST_API = '/test_endpoint'
 PREDICT_API = '/predict'
 TRAIN_API = '/train_endpoint'
 TRAIN_MODEL_NO_FILE_API = '/train_endpoint_without_file'
-TRAINING_FILE_PATH = 'data/USvideos.csv'
+TRAINING_FILE_PATH = 'data/university_data_2016.csv'
 UPDATE_MODEL_API = '/update_model'
 
 
@@ -118,7 +118,7 @@ def main():
     test_endpoint()
     #train_model_without_file()
     #train_model()
-    #predict()
+    predict()
     
 
 # Entry point for application (i.e. program starts here)
