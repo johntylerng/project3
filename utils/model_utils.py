@@ -42,7 +42,7 @@ def train(data):
     data.published_time = data.published_time.dt.time
     
     id_to_category={}
-    category_info = pd.read_json('US_category_id.json')
+    category_info = pd.read_json(DATA_FILE_PATH +'US_category_id.json')
     for category in category_info['items']:
         id_to_category[pd.to_numeric(category['id'])]=category['snippet']['title']
     data.insert(4,'category',data['category_id'].map(id_to_category))
