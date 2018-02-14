@@ -233,7 +233,7 @@ def transform(raw_data):
 
 def compute_weighted_rating(row):
     num = (total_vote_average*average_rating)+ (row['total_vote']*row['rating'])
-    return num /(total_vote_average+compute_total_vote(row))
+    return num /(total_vote_average+(row['total_vote']))
 
 def remove_punctuation(row):
     return re.sub('[(,|\"&)$@#]'," ",row)
