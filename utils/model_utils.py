@@ -48,7 +48,11 @@ def train(data):
 
     total_vote_average = data['total_vote'].mean()
     average_rating = data['rating'].mean()
+    print('total vote average',total_vote_average)
+    print('average rating', average_rating)
+    
     data['weighted_rating'] = data.apply(compute_weighted_rating,axis=1)
+    
     
     data['video_bins'] = pd.qcut(data['weighted_rating'],
                                  q=3,
@@ -232,8 +236,15 @@ def transform(raw_data):
     return X, y, features_name
 
 def compute_weighted_rating(row):
+    if total_vote_average!=0:
+        num = (total_vote_average*average_rating)+ (row['total_vote']*row['rating'])
+        return num /(total_vote_average+row['total_vote'])
+
+def compute_weighted_rating(row):
     num = (total_vote_average*average_rating)+ (row['total_vote']*row['rating'])
-    return num /(total_vote_average+(row['total_vote']))
+    return num /(total_vote_average+row['total_vote'])
+
+
 
 def remove_punctuation(row):
     return re.sub('[(,|\"&)$@#]'," ",row)
