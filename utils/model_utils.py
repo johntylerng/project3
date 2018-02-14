@@ -236,13 +236,11 @@ def transform(raw_data):
     return X, y, features_name
 
 def compute_weighted_rating(row):
+    global total_vote_average, average_rating
     if total_vote_average!=0:
         num = (total_vote_average*average_rating)+ (row['total_vote']*row['rating'])
         return num /(total_vote_average+row['total_vote'])
 
-def compute_weighted_rating(row):
-    num = (total_vote_average*average_rating)+ (row['total_vote']*row['rating'])
-    return num /(total_vote_average+row['total_vote'])
 
 
 
