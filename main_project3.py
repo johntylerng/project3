@@ -11,7 +11,7 @@ from utils import model_utils2
 app = Flask(__name__)
 
 #TRAINING_FILE_PATH = 'data/titanic.csv'
-TRAINING_FILE_PATH=
+TRAINING_FILE_PATH='data/USvideos.csv'
 
 # These will be populated at training time
 model_columns = None
