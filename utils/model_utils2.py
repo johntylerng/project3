@@ -11,6 +11,11 @@ MODEL_FILE_NAME = '%s/model.pkl' % MODEL_DIRECTORY
 MODEL_COLUMNS_FILE_NAME = '%s/model_columns.pkl' % MODEL_DIRECTORY
 
 def train(df):
+    x=read_csv('out_project2_x.csv')
+    y= read_csv('out_proect2_y.csv')
+    
+    
+    
     df_ = df[include]
     print("Training data sample:\n", df_.head())
     categoricals = []  # going to one-hot encode categorical variables
