@@ -61,6 +61,7 @@ def train(data):
     
     data['tags'] = data['tags'].apply(remove_punctuation)
     data['title']= data['title'].apply(remove_punctuation)
+    print('title',data.title.sample(2))
 
 
 
