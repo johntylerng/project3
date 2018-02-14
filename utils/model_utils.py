@@ -22,12 +22,7 @@ DATA_FILE_PATH = 'data/'
 MODEL_COLUMNS_FILE_NAME = '%s/model_columns.pkl' % MODEL_DIRECTORY
 
 
-def compute_weighted_rating(row):
-    num = (total_vote_average*average_rating)+ (row['total_vote']*row['rating'])
-    return num /(total_vote_average+compute_total_vote(row))
 
-def remove_punctuation(row):
-    return re.sub('[(,|\"&)$@#]'," ",row)
 
 
 
@@ -236,3 +231,9 @@ def transform(raw_data):
     
     return X, y, features_name
 
+def compute_weighted_rating(row):
+    num = (total_vote_average*average_rating)+ (row['total_vote']*row['rating'])
+    return num /(total_vote_average+compute_total_vote(row))
+
+def remove_punctuation(row):
+    return re.sub('[(,|\"&)$@#]'," ",row)
