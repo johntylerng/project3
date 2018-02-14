@@ -17,7 +17,8 @@ import pickle
 
 app = Flask(__name__)
 
-TRAINING_FILE_PATH = 'data/university_data_2016.csv'
+TRAINING_FILE_PATH = 'data/USvideos.csv'
+TRAINING_FILE2_PATH = 'data/US_category_id.json'
 model = None
 model_columns = None
 

@@ -8,74 +8,95 @@ Created on Thu Feb  8 10:08:29 2018
 import time
 import numpy as np
 import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+import re
+from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.linear_model import SGDClassifier
+from sklearn.ensemble import RandomForestClassifier
+
+
 
 MODEL_DIRECTORY = 'model'
 MODEL_FILE_NAME = '%s/model.pkl' %(MODEL_DIRECTORY)
 DATA_FILE_PATH = 'data/'
 MODEL_COLUMNS_FILE_NAME = '%s/model_columns.pkl' % MODEL_DIRECTORY
 
-uk_mean_tf=0
-us_mean_tf=0
-uk_mean_ms=0
-us_mean_ms=0
+
+def compute_weighted_rating(row):
+    num = (total_vote_average*average_rating)+ (row['total_vote']*row['rating'])
+    return num /(total_vote_average+compute_total_vote(row))
+
+def remove_punctuation(row):
+    return re.sub('[(,|\"&)$@#]'," ",row)
 
 
-def train(raw_data):
-    print("Training data sample:\n", raw_data.head(2))
-#    raw_data['revised_world_rank'] = raw_data.apply(extract_hyphen,axis=1)
-#    for feature in ['income','total_score','num_students',\
-#                    'international_students','student_staff_ratio']:
-#        raw_data[feature].fillna(raw_data[feature].mean(), inplace=True )
-#    for feature in ['female_male_ratio','tuition_fee','median_salary']:
-#        raw_data[feature].fillna(0, inplace=True )
-#        
-#    filtered_data_uk = raw_data[raw_data.country == 'United Kingdom']
-#    uk_mean_tf= filtered_data_uk['tuition_fee'].mean()
-#    filtered_data_us = raw_data[raw_data.country == 'United States of America']
-#    us_mean_tf= filtered_data_us['tuition_fee'].mean()
-#    raw_data['tuition_fee'] = raw_data.apply(assign_missing_values_tuition,axis=1)
-#    
-#    filtered_data2_uk = raw_data[raw_data.country == 'United Kingdom']
-#    uk_mean_ms= filtered_data2_uk['median_salary'].mean()
-#    filtered_data2_us = raw_data[raw_data.country == 'United States of America']
-#    us_mean_ms= filtered_data2_us['median_salary'].mean()
-#    raw_data['median_salary'] = raw_data.apply(assign_missing_values_salary,axis=1)
-#    
-##    print('us_mean_ms>',us_mean_ms)
-##    print('uk_mean_ms>',uk_mean_ms)
-##    print('us_mean_tf>',us_mean_tf)
-##    print('uk_mean_tf>',uk_mean_tf)
-#    
-##    print(raw_data.head(2))
-#    
-##    weight_bins = [12213.999, 30495.769, 38787.259,197400.0]
-##    group_names = ['low', 'good', 'excellent']
-##    raw_data['salary_bins'] = pd.cut(raw_data['median_salary'],weight_bins,\
-##                                  labels=group_names)
-#    
-#    raw_data['salary_bins'] = raw_data.apply(assign_salary_band,axis=1)
-#    raw_data.country = raw_data.country.astype('category')
-#    raw_data['country_cat'] = raw_data['country'].cat.codes
-#    
-#    print('empty>',raw_data.isnull().any())
+
+def train(data):
+    print("Training data sample:\n", data.head(2))
+    
+    data['trending_date']= pd.to_datetime(data.trending_date,format='%y.%d.%m')
+    data.publish_time = pd.to_datetime(data.publish_time, \
+                                       format='%Y-%m-%dT%H:%M:%S.%fZ')
+    data.rename(columns={'publish_time':'published_time'}, inplace=True)
+    data.insert(4,'published_date',data.published_time.dt.date)
+    data.published_time = data.published_time.dt.time
+    
+    id_to_category={}
+    category_info = pd.read_json('US_category_id.json')
+    for category in category_info['items']:
+        id_to_category[pd.to_numeric(category['id'])]=category['snippet']['title']
+    data.insert(4,'category',data['category_id'].map(id_to_category))
+    
+
+    data['total_vote'] = data['likes']+data['dislikes']
+    data['rating']=data['likes'] - data['dislikes']
+
+    total_vote_average = data['total_vote'].mean()
+    average_rating = data['rating'].mean()
+    data['weighted_rating'] = data.apply(compute_weighted_rating,axis=1)
+    
+    data['video_bins'] = pd.qcut(data['weighted_rating'],
+                                 q=3,
+                                 labels=["below","good","excellent"])
+    
+    data['tags'] = data['tags'].apply(remove_punctuation)
+    data['title']= data['title'].apply(remove_punctuation)
+
+
+
+    count_vectorizer = CountVectorizer()
+
+    cv = count_vectorizer.fit_transform(data['tags'])
+    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
+    data = pd.concat([data,new_df], axis=1)
+
+    cv = count_vectorizer.fit_transform(data['title'])
+    title_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
+    data = pd.concat([data,title_df], axis=1)
+    
+    X = data.drop(['video_id','title','channel_title','trending_date', 'category', 'published_date',\
+                  'published_time','thumbnail_link','comments_disabled',\
+                  'ratings_disabled','video_error_or_removed','description',\
+               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
+
+    features_name = X.columns
+    print('features in X:',X.columns)
+    X = np.array(X)
+    y = data['video_bins']
+    y = np.array(y)
+    np.random.seed(42)
+    
+    #split data into 60%, 20%, 20%
+    X_train_validate, X_test,y_train_validate,\
+    y_test= train_test_split(X,y,test_size=0.20,random_state=0)
+
+    X_train, X_validate, y_train, y_validate = \
+    train_test_split(X_train_validate,y_train_validate,\
+                     test_size=0.25, random_state=0)
+
     
     
-#    X = raw_data.drop(['world_rank','university_name', 'country', 'total_score',\
-#                  'student_staff_ratio','international_students','female_male_ratio',\
-#                  'year','median_salary','salary_bins'], axis=1)
-    
-#    features_name = X.columns
-#    print('features in X:',X.columns)
-#    X = np.array(X)
-#    y = raw_data.salary_bins
-#    y = np.array(y)
-#    
-#    
-#    print(X[:3,:])
-#    print(y[:20])
+
 
     X,y,features_name = transform(raw_data)
     
@@ -89,8 +110,8 @@ def train(raw_data):
                                                             test_size=0.25, random_state=0)
     
     #model = DecisionTreeClassifier(min_samples_leaf=5)
-    model = SGDClassifier()
-    model.fit(X_train,y_train)
+    model = RandomForestClassifier(max_features='auto', \
+                                   min_samples_leaf=20, n_estimators=10)
     start = time.time() 
     model.fit(X_train, y_train)
     model_columns = list(features_name)
