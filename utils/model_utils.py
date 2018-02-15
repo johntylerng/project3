@@ -26,6 +26,9 @@ MODEL_COLUMNS_FILE_NAME = '%s/model_columns.pkl' % MODEL_DIRECTORY
 
 total_vote_average=0
 average_rating =0
+count_vectorizer_tags= CountVectorizer(stop_words='english')
+count_vectorizer_title= CountVectorizer(stop_words='english')
+
 
 
 
@@ -138,23 +141,9 @@ def train(data):
     
     return model_columns, model
 
-def predict(data,model):
-
-    model_columns = joblib.load(MODEL_COLUMNS_FILE_NAME)
-#    print(model_columns)
-    data['tags'] = data['tags'].apply(remove_punctuation)
-    data['title']= data['title'].apply(remove_punctuation)
-    count_vectorizer = CountVectorizer(stop_words='english')
-    word_count_tag=count_vectorizer.fit_transform(data['tags'])
-    words=[]
-    for i in count_vectorizer.get_feature_names():
-        words.append(i.encode('utf-8'))
+def predict(data,model,model_columns):
     
-    words_not_in_features = list(set(words)-set(model_columns))
-    words_in_features = list(set(model_columns)-set(words))
-    count_vectorizer.drop(words_not_in_features)
-    print(count_vectorizer.shape)
-    
+    Z, y, features_name = cleaning_data(data)
     
 #    Z, y, test_data_features_name = cleaning_data(data)
 #    Z= pd.DataFrame(Z.toarray(),columns=test_data_features_name)
@@ -164,9 +153,9 @@ def predict(data,model):
 #    Z = Z.drop(feature_not_in_list,axis=1) 
     
     
-    predictions = None
-#    predictions = model.predict(Z).tolist()
-    #predictions = [int(prediction) for prediction in predictions]
+    
+    predictions = model.predict(Z).tolist()
+    predictions = [int(prediction) for prediction in predictions]
 
     return {'predictions': predictions}
     
@@ -181,7 +170,7 @@ def predict(data,model):
 #    return model
 
 def cleaning_data(data):
-    global total_vote_average, average_rating
+    global total_vote_average, average_rating,count_vectorizer_tags,count_vectorizer_title 
 #    print("Training data sample:\n", data.head(2))
     
     data['trending_date']= pd.to_datetime(data.trending_date,format='%y.%d.%m')
@@ -221,12 +210,9 @@ def cleaning_data(data):
                   'ratings_disabled','video_error_or_removed','description',\
                'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
 
-
-
-    count_vectorizer = CountVectorizer(stop_words='english')
     
 
-    word_count_tag=count_vectorizer.fit_transform(data['tags'])
+    word_count_tag=count_vectorizer_tags.fit_transform(data['tags'])
 #    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
 #    data = pd.concat([data,new_df], axis=1)
     
@@ -237,7 +223,7 @@ def cleaning_data(data):
     Z = np.array(X)
     Z = sparse.hstack((word_count_tag, sparse.csr_matrix(X)))
     
-    word_count_title=count_vectorizer.fit_transform(data['title'])
+    word_count_title=count_vectorizer_title.fit_transform(data['title'])
     Z= sparse.hstack((word_count_title,Z))
     print('Z shape', Z.shape)
     
