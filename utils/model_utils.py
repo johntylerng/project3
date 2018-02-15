@@ -77,7 +77,7 @@ def train(data):
     print(num_feats[:10])
     
     data = np.array(data)
-    data = sparse.hstack((word_count,sparse.csr_matrix(data)))
+    data = sparse.hstack((word_count,sparse.csr_matrix(data).astype(object)))
     
     
 #    data = pd.concat([data,new_df], axis=1)
