@@ -99,7 +99,7 @@ def train(data):
 #                  'ratings_disabled','video_error_or_removed','description',\
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
     features_name = list(X.columns)
-    print('X feature name',features_name)
+#    print('X feature name',features_name)
     for i in count_vectorizer.get_feature_names():
         features_name.append(i.encode('utf-8'))
     

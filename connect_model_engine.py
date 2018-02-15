@@ -82,8 +82,8 @@ def predict():
 
 def main():
     test_endpoint()
-    train_model_without_file()
-#    train_model()
+#    train_model_without_file()
+    train_model()
 #    predict()
     
 
