@@ -116,7 +116,7 @@ def train(data):
 #    y = data['video_bins']
 #    y = np.array(y)
     
-    Z, y, features_name = cleaning_data(data)
+    Z, y, features_name = cleaning_data(data,0)
     np.random.seed(42)
 #    
 #    split data into 60%, 20%, 20%
@@ -143,17 +143,7 @@ def train(data):
 
 def predict(data,model,model_columns):
     
-    Z, y, features_name = cleaning_data(data)
-    
-
-#    Z, y, test_data_features_name = cleaning_data(data)
-#    Z= pd.DataFrame(Z.toarray(),columns=test_data_features_name)
-#    print(Z.shape)
-#    feature_not_in_list = list(set(model_columns) - set(test_data_features_name))
-#    print(len(feature_not_in_list))
-#    Z = Z.drop(feature_not_in_list,axis=1) 
-    
-    
+    Z, y, features_name = cleaning_data(data,1)
     
     predictions = model.predict(Z).tolist()
     predictions = [int(prediction) for prediction in predictions]
@@ -170,8 +160,10 @@ def predict(data,model,model_columns):
 #    
 #    return model
 
-def cleaning_data(data):
-    global total_vote_average, average_rating,count_vectorizer_tags,count_vectorizer_title 
+def cleaning_data(data,text):
+    global total_vote_average, average_rating,count_vectorizer_tags,count_vectorizer_title
+    
+     
 #    print("Training data sample:\n", data.head(2))
     
     data['trending_date']= pd.to_datetime(data.trending_date,format='%y.%d.%m')
@@ -185,14 +177,14 @@ def cleaning_data(data):
     category_info = pd.read_json(DATA_FILE_PATH +'US_category_id.json')
     for category in category_info['items']:
         id_to_category[pd.to_numeric(category['id'])]=category['snippet']['title']
-    data.insert(4,'category',data['category_id'].map(id_to_category))
+        data.insert(4,'category',data['category_id'].map(id_to_category))
     
 
     data['total_vote'] = data['likes']+data['dislikes']
     data['rating']=data['likes'] - data['dislikes']
-
-    total_vote_average = data['total_vote'].mean()
-    average_rating = data['rating'].mean()
+    if text==0:
+        total_vote_average = data['total_vote'].mean()
+        average_rating = data['rating'].mean()
 #    print('total vote average',total_vote_average)
 #    print('average rating', average_rating)
     
@@ -211,12 +203,15 @@ def cleaning_data(data):
                   'ratings_disabled','video_error_or_removed','description',\
                'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
 
-    
-
-    word_count_tag=count_vectorizer_tags.fit_transform(data['tags'])
+    if text==0:
+        word_count_tag=count_vectorizer_tags.fit_transform(data['tags'])
+        word_count_title=count_vectorizer_title.fit_transform(data['title'])
 #    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
 #    data = pd.concat([data,new_df], axis=1)
-    
+    else:
+        word_count_tag=count_vectorizer_tags.transform(data['tags'])
+        word_count_title=count_vectorizer_title.transform(data['title'])
+        
     
 #    num_feats = count_vectorizer.get_feature_names()
 #    print(num_feats[:10])
@@ -224,7 +219,7 @@ def cleaning_data(data):
     Z = np.array(X)
     Z = sparse.hstack((word_count_tag, sparse.csr_matrix(X)))
     
-    word_count_title=count_vectorizer_title.fit_transform(data['title'])
+        
     Z= sparse.hstack((word_count_title,Z))
     print('Z shape', Z.shape)
     
@@ -237,6 +232,7 @@ def cleaning_data(data):
 #                  'published_time','thumbnail_link','comments_disabled',\
 #                  'ratings_disabled','video_error_or_removed','description',\
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
+    if text==0:
     features_name = list(X.columns)
 #    print('X feature name',features_name)
     for i in count_vectorizer_tags.get_feature_names():
@@ -252,6 +248,7 @@ def cleaning_data(data):
 #    X = np.array(X)
     y = data['video_bins']
     y = np.array(y)
+        
     return Z, y, features_name
 
     
