@@ -78,7 +78,7 @@ def train(data):
     
     data = np.array(data)
     data = sparse.hstack((word_count.astype(object),\
-                          sparse.csr_matrix(data).astype(object)))
+                          sparse.csr_matrix(data, dtype=object)))
     
     
 #    data = pd.concat([data,new_df], axis=1)
