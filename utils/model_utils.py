@@ -16,6 +16,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 
 
+
 MODEL_DIRECTORY = 'model'
 MODEL_FILE_NAME = '%s/model.pkl' %(MODEL_DIRECTORY)
 DATA_FILE_PATH = 'data/'
@@ -64,8 +65,9 @@ def train(data):
 
 
     count_vectorizer = CountVectorizer()
+    
 
-    cv = count_vectorizer.fit_transform(data['tags'])
+    cv = count_vectorizer.fit_transform(data['tags']).todense()
     new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
     data = pd.concat([data,new_df], axis=1)
 
@@ -170,7 +172,7 @@ def assign_salary_band(row):
         return 'excellent'
     
 def assign_category_band(row):
-    print(row['weighted_rating'])
+#    print(row['weighted_rating'])
     if row['weighted_rating'] <= 36673:
         return 'below'
     elif row['weighted_rating'] < 40520:
