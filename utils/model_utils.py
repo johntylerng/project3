@@ -98,10 +98,10 @@ def train(data):
 #                  'published_time','thumbnail_link','comments_disabled',\
 #                  'ratings_disabled','video_error_or_removed','description',\
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
-    features_name = X.columns
+    features_name = list(X.columns)
     print('X feature name',features_name)
-    #for i in count_vectorizer.get_feature_names():
-        #print(i.encode('utf-8'))
+    for i in count_vectorizer.get_feature_names():
+        features_name.append(i.encode('utf-8'))
     
 #    X= np.array(Z)
     
