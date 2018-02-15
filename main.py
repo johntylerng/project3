@@ -77,7 +77,7 @@ def predict():
         try:
             input_df =pd.DataFrame(request.json)
             
-            predictions = model_utils.predict(input_df, model)
+            predictions = model_utils.predict(input_df, model,model_columns)
             return jsonify(predictions)
         except Exception as e:
             return jsonify({'error': str(e), 'trace': traceback.format_exc()})
@@ -98,7 +98,10 @@ if __name__ == '__main__':
 
     try:
         model = joblib.load(model_utils.MODEL_FILE_NAME)
-        print('model loaded')
+        model_columns = joblib.load(model_utils.MODEL_COLUMNS_FILE_NAME)
+        print('model and columns loaded')
+        
+        
         
     except Exception as e:
         print('No model here')
