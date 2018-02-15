@@ -177,7 +177,8 @@ def cleaning_data(data,text):
     category_info = pd.read_json(DATA_FILE_PATH +'US_category_id.json')
     for category in category_info['items']:
         id_to_category[pd.to_numeric(category['id'])]=category['snippet']['title']
-        data.insert(4,'category',data['category_id'].map(id_to_category))
+    
+    data.insert(4,'category',data['category_id'].map(id_to_category))
     
 
     data['total_vote'] = data['likes']+data['dislikes']
