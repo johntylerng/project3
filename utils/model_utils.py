@@ -143,10 +143,10 @@ def predict(data,model):
     model_columns = model = joblib.load(MODEL_COLUMNS_FILE_NAME)
     
     Z, y, test_data_features_name = cleaning_data(data)
-    Z= pd.DataFrame(Z.toarray(),columns=test_data_features_name)
-    print(Z.shape)
+#    Z= pd.DataFrame(Z.toarray(),columns=test_data_features_name)
+#    print(Z.shape)
     feature_not_in_list = list(set(model_columns) - set(test_data_features_name))
-    
+    print(len(feature_not_in_list))
 #    Z = Z.drop(feature_not_in_list,axis=1) 
     
     
