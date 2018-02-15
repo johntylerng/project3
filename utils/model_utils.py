@@ -93,20 +93,6 @@ def train(data):
                      test_size=0.25, random_state=0)
 
     
-    
-
-
-    X,y,features_name = transform(raw_data)
-    
-    np.random.seed(42)
-    shuffle_index = np.random.permutation(raw_data.shape[0])
-    X, y= X[shuffle_index],y[shuffle_index]
-    X_train_validate, X_test,y_train_validate, y_test= train_test_split(X,y,test_size=0.20,\
-                                                                  random_state=0)
-
-    X_train, X_validate, y_train, y_validate = train_test_split(X_train_validate,y_train_validate,\
-                                                            test_size=0.25, random_state=0)
-    
     #model = DecisionTreeClassifier(min_samples_leaf=5)
     model = RandomForestClassifier(max_features='auto', \
                                    min_samples_leaf=20, n_estimators=10)
@@ -182,9 +168,9 @@ def assign_salary_band(row):
         return 'excellent'
     
 def assign_category_band(row):
-    if row['weighted_rating'] < 36672.99148165:
+    if row['weighted_rating'] <= 36673:
         return 'below'
-    elif row['weighted_rating'] < 40519.91515646:
+    elif row['weighted_rating'] < 40520:
         return 'good'
     else:
         return 'excellent'
