@@ -139,7 +139,7 @@ def train(data):
 
 def predict(data,model):
 
-    model_columns = main.model_columns
+    model_columns = model = joblib.load(model_utils.MODEL_COLUMNS_FILE_NAME)
     
     Z, y, test_data_features_name = cleaning_data(data)
     feature_not_in_list = list(set(model_columns) - set(test_data_features_name))

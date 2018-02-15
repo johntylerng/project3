@@ -39,6 +39,8 @@ def train_model():
     
     global model_columns, model
     model_columns, model = model_utils.train(df)
+    pickle.dump(model, open(model_utils.MODEL_FILE_NAME, 'wb'))
+    pickle.dump(model_columns, open(model_utils.MODEL_COLUMNS_FILE_NAME, 'wb'))
     
     return 'success:from train_model'
 
@@ -51,7 +53,7 @@ def train_model_without_file():
     #joblib.dump(model_columns, model_utils.MODEL_COLUMNS_FILE_NAME)
     #joblib.dump(model, model_utils.MODEL_FILE_NAME)
     pickle.dump(model, open(model_utils.MODEL_FILE_NAME, 'wb'))
-    
+    pickle.dump(model_columns, open(model_utils.MODEL_COLUMNS_FILE_NAME, 'wb'))
     return 'success: from train_model_without_file'
 
 #@app.route('/update_model', methods=['POST'])
