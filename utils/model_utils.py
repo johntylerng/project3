@@ -141,14 +141,7 @@ def train(data):
     
     return model_columns, model
 
-def predict(data,model,model_columns):
-    
-    Z, y, features_name = cleaning_data(data,1)
-    
-    predictions = model.predict(Z).tolist()
-    predictions = [int(prediction) for prediction in predictions]
 
-    return {'predictions': predictions}
     
 #
 #def update(df, model):
@@ -252,7 +245,7 @@ def cleaning_data(data,text):
         
     return Z, y, features_name
 
-    
+
 def assign_category_band(row):
 #    print(row['weighted_rating'])
     if row['weighted_rating'] <= 36673:
@@ -273,3 +266,12 @@ def compute_weighted_rating(row):
 
 def remove_punctuation(row):
     return re.sub('[(,|\"&)$@#]'," ",row)
+
+def predict(data,model,model_columns):
+    
+    Z, y, features_name = cleaning_data(data,1)
+    
+    predictions = model.predict(Z).tolist()
+    predictions = [int(prediction) for prediction in predictions]
+
+    return {'predictions': predictions}
