@@ -69,9 +69,9 @@ def train(data):
     new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
     data = pd.concat([data,new_df], axis=1)
 
-    cv = count_vectorizer.fit_transform(data['title'])
-    title_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
-    data = pd.concat([data,title_df], axis=1)
+#    cv = count_vectorizer.fit_transform(data['title'])
+#    title_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
+#    data = pd.concat([data,title_df], axis=1)
     
     X = data.drop(['video_id','title','channel_title','trending_date', 'category', 'published_date',\
                   'published_time','thumbnail_link','comments_disabled',\
