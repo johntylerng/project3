@@ -48,12 +48,12 @@ def train(data):
 
     total_vote_average = data['total_vote'].mean()
     average_rating = data['rating'].mean()
-    print('total vote average',total_vote_average)
-    print('average rating', average_rating)
+    #print('total vote average',total_vote_average)
+    #print('average rating', average_rating)
     
     data['weighted_rating'] = data.apply(compute_weighted_rating,axis=1)
     
-    
+    print((data[['weighted_rating']].head(2)))
     data['video_bins'] = data.apply(assign_category_band,axis=1)
     
     data['tags'] = data['tags'].apply(remove_punctuation)
