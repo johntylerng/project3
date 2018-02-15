@@ -147,7 +147,7 @@ def predict(data,model):
 #    Z= pd.DataFrame(Z.toarray(),columns=test_data_features_name)
 #    print(Z.shape)
 #    feature_not_in_list = list(set(model_columns) - set(test_data_features_name))
-    print(len(feature_not_in_list))
+#    print(len(feature_not_in_list))
 #    Z = Z.drop(feature_not_in_list,axis=1) 
     
     
