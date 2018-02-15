@@ -101,7 +101,7 @@ def train(data):
     features_name = X.columns
     print('X feature name',features_name)
     for i in count_vectorizer.get_feature_names():
-        print(i.encode('utf-8'))
+        print(unicode(i))
     
 #    X= np.array(Z)
     
