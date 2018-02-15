@@ -95,7 +95,10 @@ def train(data):
 #                  'ratings_disabled','video_error_or_removed','description',\
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
     features_name = X.columns
-    features_name.append(count_vectorizer.get_feature_names)
+    print('X feature name',features_name)
+    print(count_vectorizer.get_feature_names)
+    
+#    features_name.append(count_vectorizer.get_feature_names)
 #    print('features in X:',X.columns)
 #    X = np.array(X)
 #    y = data['video_bins']
