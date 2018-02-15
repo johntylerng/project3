@@ -68,17 +68,19 @@ def train(data):
     count_vectorizer = CountVectorizer()
     
 
-    count_vectorizer.fit_transform(data['tags'])
+    word_count=count_vectorizer.fit_transform(data['tags'])
 #    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
 #    data = pd.concat([data,new_df], axis=1)
     
     
     num_feats = count_vectorizer.get_feature_names()
     print(num_feats[:10])
-    new_df = sparse.hstack((count_vectorizer.get_feature_names(), num_feats))
+    
+    data = np.array(data)
+    data = sparse.hstack((word_count,sparse.csr_matrix(data)))
     
     
-    data = pd.concat([data,new_df], axis=1)
+#    data = pd.concat([data,new_df], axis=1)
     
     
 #    cv = count_vectorizer.fit_transform(data['title'])
