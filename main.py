@@ -23,6 +23,7 @@ model = None
 model_columns = None
 
 
+
 @app.route('/test_endpoint', methods=['GET'])
 def test_connection():
     print('somebody is here')
