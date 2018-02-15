@@ -100,7 +100,8 @@ def train(data):
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
     features_name = X.columns
     print('X feature name',features_name)
-    print(np.asarray(count_vectorizer.get_feature_names()))
+    pattern = re.compile(vectorizer_train.token_pattern, re.UNICODE)
+    print(pattern)
     
 #    X= np.array(Z)
     
