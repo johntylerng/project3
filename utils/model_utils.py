@@ -141,7 +141,17 @@ def train(data):
 def predict(data,model):
 
     model_columns = joblib.load(MODEL_COLUMNS_FILE_NAME)
-    print(model_columns)
+#    print(model_columns)
+    data['tags'] = data['tags'].apply(remove_punctuation)
+    data['title']= data['title'].apply(remove_punctuation)
+    count_vectorizer = CountVectorizer(stop_words='english')
+    word_count_tag=count_vectorizer.fit_transform(data['tags'])
+    word_features = count_vectorizer.get_feature_names().encode('utf-8')
+    words_not_in_features = list(set(word_features)-set(model_columns))
+    words_in_features = list(set(model_columns)-set(word_features))
+    count_vectorizer.drop(words_not_in_features)
+    print(count_vectorizer.shape)
+    
     
 #    Z, y, test_data_features_name = cleaning_data(data)
 #    Z= pd.DataFrame(Z.toarray(),columns=test_data_features_name)
