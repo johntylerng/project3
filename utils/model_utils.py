@@ -28,6 +28,7 @@ average_rating =0
 
 
 
+
 def train(data):
 #    global total_vote_average, average_rating
 ##    print("Training data sample:\n", data.head(2))
@@ -138,64 +139,13 @@ def train(data):
 
 def predict(data,model):
 
-    global total_vote_average, average_rating
-#    print("Training data sample:\n", data.head(2))
+    model_columns = main.model_columns
     
-    data['trending_date']= pd.to_datetime(data.trending_date,format='%y.%d.%m')
-    data.publish_time = pd.to_datetime(data.publish_time, \
-                                       format='%Y-%m-%dT%H:%M:%S.%fZ')
-    data.rename(columns={'publish_time':'published_time'}, inplace=True)
-    data.insert(4,'published_date',data.published_time.dt.date)
-    data.published_time = data.published_time.dt.time
+    Z, y, test_data_features_name = cleaning_data(data)
+    feature_not_in_list = list(set(model_columns) - set(test_data_features_name))
     
-    id_to_category={}
-    category_info = pd.read_json(DATA_FILE_PATH +'US_category_id.json')
-    for category in category_info['items']:
-        id_to_category[pd.to_numeric(category['id'])]=category['snippet']['title']
-    data.insert(4,'category',data['category_id'].map(id_to_category))
+    Z = Z.drop(feature_not_in_list,axis=1) 
     
-
-    data['total_vote'] = data['likes']+data['dislikes']
-    data['rating']=data['likes'] - data['dislikes']
-
-#    total_vote_average = data['total_vote'].mean()
-#    average_rating = data['rating'].mean()
-#    print('total vote average',total_vote_average)
-#    print('average rating', average_rating)
-    
-    data['weighted_rating'] = data.apply(compute_weighted_rating,axis=1)
-    
-#    print((data[['weighted_rating']].head(2)))
-    data['video_bins'] = data.apply(assign_category_band,axis=1)
-    
-    data['tags'] = data['tags'].apply(remove_punctuation)
-    data['title']= data['title'].apply(remove_punctuation)
-#    print('title',data.title.sample(2))
-    
-    
-    X = data.drop(['video_id','title','channel_title','trending_date', 'category', 'published_date',\
-                  'published_time','thumbnail_link','comments_disabled',\
-                  'ratings_disabled','video_error_or_removed','description',\
-               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
-
-
-
-    count_vectorizer = CountVectorizer(stop_words='english')
-    
-
-    word_count_tag=count_vectorizer.fit_transform(data['tags'])
-#    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
-#    data = pd.concat([data,new_df], axis=1)
-    
-    
-#    num_feats = count_vectorizer.get_feature_names()
-#    print(num_feats[:10])
-    
-    Z = np.array(X)
-    Z = sparse.hstack((word_count_tag, sparse.csr_matrix(X)))
-    
-    word_count_title=count_vectorizer.fit_transform(data['title'])
-    Z= sparse.hstack((word_count_title,Z))
     
     predictions = model.predict(Z).tolist()
     #predictions = [int(prediction) for prediction in predictions]

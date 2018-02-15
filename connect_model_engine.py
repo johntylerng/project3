@@ -84,7 +84,7 @@ def main():
     test_endpoint()
 #    train_model_without_file()
     train_model()
-#    predict()
+    predict()
     
 
 # Entry point for application (i.e. program starts here)
