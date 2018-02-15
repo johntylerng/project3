@@ -28,7 +28,7 @@ average_rating =0
 
 def train(data):
     global total_vote_average, average_rating
-    print("Training data sample:\n", data.head(2))
+#    print("Training data sample:\n", data.head(2))
     
     data['trending_date']= pd.to_datetime(data.trending_date,format='%y.%d.%m')
     data.publish_time = pd.to_datetime(data.publish_time, \
@@ -49,8 +49,8 @@ def train(data):
 
     total_vote_average = data['total_vote'].mean()
     average_rating = data['rating'].mean()
-    print('total vote average',total_vote_average)
-    print('average rating', average_rating)
+#    print('total vote average',total_vote_average)
+#    print('average rating', average_rating)
     
     data['weighted_rating'] = data.apply(compute_weighted_rating,axis=1)
     
@@ -63,11 +63,11 @@ def train(data):
 
 
 
-#    count_vectorizer = CountVectorizer()
-#
-#    cv = count_vectorizer.fit_transform(data['tags'])
-#    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
-#    data = pd.concat([data,new_df], axis=1)
+    count_vectorizer = CountVectorizer()
+
+    cv = count_vectorizer.fit_transform(data['tags'])
+    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
+    data = pd.concat([data,new_df], axis=1)
 
 #    cv = count_vectorizer.fit_transform(data['title'])
 #    title_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
