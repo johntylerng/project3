@@ -26,42 +26,7 @@ df= pd.read_csv(TRAINING_FILE_PATH)
 
 TRAINING_DATA = df.to_dict('records')
 
-TEST_DATA=[{'citations': 99.799999999999997,
-  'country_cat': 28.0,
-  'income': 97.799999999999997,
-  'international outlook': 64.0,
-  'num_students': 2243.0,
-  'research': 97.599999999999994,
-  'revised_world_rank': 1.0,
-  'teaching': 95.599999999999994,
-  'tuition_fee': 47577.0},
- {'citations': 98.799999999999997,
-  'country_cat': 27.0,
-  'income': 73.099999999999994,
-  'international outlook': 94.400000000000006,
-  'num_students': 19919.0,
-  'research': 98.900000000000006,
-  'revised_world_rank': 2.0,
-  'teaching': 86.5,
-  'tuition_fee': 41806.5},
- {'citations': 99.900000000000006,
-  'country_cat': 28.0,
-  'income': 63.299999999999997,
-  'international outlook': 76.299999999999997,
-  'num_students': 15596.0,
-  'research': 96.200000000000003,
-  'revised_world_rank': 3.0,
-  'teaching': 92.5,
-  'tuition_fee': 47940.0},
- {'citations': 97.0,
-  'country_cat': 27.0,
-  'income': 55.0,
-  'international outlook': 91.5,
-  'num_students': 18812.0,
-  'research': 96.700000000000003,
-  'revised_world_rank': 4.0,
-  'teaching': 88.200000000000003,
-  'tuition_fee': 45120.0}]
+TEST_DATA=df.sample(10).to_dict('records')
 
 def test_endpoint():
     print('<client>Test connection')
@@ -119,7 +84,7 @@ def main():
     test_endpoint()
 #    train_model_without_file()
     train_model()
-    #predict()
+    predict()
     
 
 # Entry point for application (i.e. program starts here)
