@@ -82,14 +82,10 @@ def train(data):
 #    num_feats = count_vectorizer.get_feature_names()
 #    print(num_feats[:10])
     
-    X = np.array(X)
-    X = sparse.hstack((word_count,\
-                          sparse.csr_matrix(X))
-    
+    Y = np.array(X)
+    Y = sparse.hstack((word_count, sparse.csr_matrix(X)))
     
 #    data = pd.concat([data,new_df], axis=1)
-    
-    
 #    cv = count_vectorizer.fit_transform(data['title'])
 #    title_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
 #    data = pd.concat([data,title_df], axis=1)
@@ -98,8 +94,7 @@ def train(data):
 #                  'published_time','thumbnail_link','comments_disabled',\
 #                  'ratings_disabled','video_error_or_removed','description',\
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
-
-#    features_name = X.columns
+     features_name = X.columns
 #    print('features in X:',X.columns)
 #    X = np.array(X)
 #    y = data['video_bins']
@@ -116,13 +111,12 @@ def train(data):
 #
 #    
 #    #model = DecisionTreeClassifier(min_samples_leaf=5)
-#     model = RandomForestClassifier(max_features='auto', \
-#                                   min_samples_leaf=20, n_estimators=10)
+     model = RandomForestClassifier(max_features='auto', \
+                                   min_samples_leaf=20, n_estimators=10)
 #    start = time.time() 
 #    model.fit(X_train, y_train)
-#    model_columns = list(features_name)
-     model_columns = None
-     model=None
+    model_columns = list(features_name)
+     
 #    print('Trained in %.1f seconds' % (time.time() - start))
 #    print('Model  validation score: %s' % model.score(X_validate, y_validate))
     
