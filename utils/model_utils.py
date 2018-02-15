@@ -82,8 +82,8 @@ def train(data):
 #    num_feats = count_vectorizer.get_feature_names()
 #    print(num_feats[:10])
     
-    X = np.array(X)
-    X = sparse.hstack((word_count, sparse.csr_matrix(X)))
+    Y = np.array(X)
+    Y = sparse.hstack((word_count, sparse.csr_matrix(X)))
     
 #    data = pd.concat([data,new_df], axis=1)
 #    cv = count_vectorizer.fit_transform(data['title'])
@@ -95,6 +95,7 @@ def train(data):
 #                  'ratings_disabled','video_error_or_removed','description',\
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
     features_name = X.columns
+    features_name.append(count_vectorizer.get_feature_names)
 #    print('features in X:',X.columns)
 #    X = np.array(X)
 #    y = data['video_bins']
