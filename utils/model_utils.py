@@ -168,6 +168,7 @@ def assign_salary_band(row):
         return 'excellent'
     
 def assign_category_band(row):
+    print(row['weighted_rating'])
     if row['weighted_rating'] <= 36673:
         return 'below'
     elif row['weighted_rating'] < 40520:
