@@ -145,6 +145,7 @@ def predict(data,model,model_columns):
     
     Z, y, features_name = cleaning_data(data)
     
+
 #    Z, y, test_data_features_name = cleaning_data(data)
 #    Z= pd.DataFrame(Z.toarray(),columns=test_data_features_name)
 #    print(Z.shape)
@@ -238,7 +239,10 @@ def cleaning_data(data):
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
     features_name = list(X.columns)
 #    print('X feature name',features_name)
-    for i in count_vectorizer.get_feature_names():
+    for i in count_vectorizer_tags.get_feature_names():
+        features_name.append(i.encode('utf-8'))
+    
+    for i in count_vectorizer_title.get_feature_names():
         features_name.append(i.encode('utf-8'))
     
 #    X= np.array(Z)
