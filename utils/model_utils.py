@@ -71,8 +71,9 @@ def train(data):
 #    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
 #    data = pd.concat([data,new_df], axis=1)
     
-    for i, col in enumerate(count_vectorizer.get_feature_names()):
-        new_df = pd.SparseSeries(cv[:, i].toarray().ravel(), fill_value=0)
+    
+    num_feats = count_vectorizer.get_feature_names().values
+    new_df = sparse.hstack((count_vectorizer.get_feature_names(), num_feats))
     
     data = pd.concat([data,new_df], axis=1)
     
