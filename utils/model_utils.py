@@ -98,7 +98,7 @@ def train(data):
     print('X feature name',features_name)
     print(count_vectorizer.get_feature_names)
     
-    X= np.array(Z)
+#    X= np.array(Z)
     
 #    features_name.append(count_vectorizer.get_feature_names)
 #    print('features in X:',X.columns)
@@ -109,7 +109,7 @@ def train(data):
 #    
 #    split data into 60%, 20%, 20%
     X_train_validate, X_test,y_train_validate,\
-    y_test= train_test_split(X,y,test_size=0.20,random_state=0)
+    y_test= train_test_split(Z,y,test_size=0.20,random_state=0)
 #
     X_train, X_validate, y_train, y_validate = \
     train_test_split(X_train_validate,y_train_validate,\
