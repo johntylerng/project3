@@ -146,10 +146,12 @@ def predict(data,model):
     data['title']= data['title'].apply(remove_punctuation)
     count_vectorizer = CountVectorizer(stop_words='english')
     word_count_tag=count_vectorizer.fit_transform(data['tags'])
-    word_features= count_vectorizer.get_feature_names()
-    word_features = word_features.encode('utf-8')
-    words_not_in_features = list(set(word_features)-set(model_columns))
-    words_in_features = list(set(model_columns)-set(word_features))
+    words=[]
+    for i in count_vectorizer.get_feature_names():
+        words.append(i.encode('utf-8'))
+    
+    words_not_in_features = list(set(words)-set(model_columns))
+    words_in_features = list(set(model_columns)-set(words))
     count_vectorizer.drop(words_not_in_features)
     print(count_vectorizer.shape)
     
