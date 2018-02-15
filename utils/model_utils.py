@@ -136,7 +136,7 @@ def train(data):
 
 def predict(df,model):
 
-    lobal total_vote_average, average_rating
+    global total_vote_average, average_rating
 #    print("Training data sample:\n", data.head(2))
     
     data['trending_date']= pd.to_datetime(data.trending_date,format='%y.%d.%m')
@@ -156,8 +156,8 @@ def predict(df,model):
     data['total_vote'] = data['likes']+data['dislikes']
     data['rating']=data['likes'] - data['dislikes']
 
-    total_vote_average = data['total_vote'].mean()
-    average_rating = data['rating'].mean()
+#    total_vote_average = data['total_vote'].mean()
+#    average_rating = data['rating'].mean()
 #    print('total vote average',total_vote_average)
 #    print('average rating', average_rating)
     
