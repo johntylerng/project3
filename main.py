@@ -31,7 +31,7 @@ def test_connection():
 
 @app.route('/train_endpoint', methods=['POST'])
 def train_model():
-    print('training model...wait')
+    print('training model...waiting for data')
     try:
         df= pd.DataFrame(request.json)
     except Exception as e:

@@ -84,7 +84,7 @@ def train_model_without_file():
         print("Status code indicates a problem:", r.status_code)
 
 def train_model():
-    print("Trying train endpoint...")
+    print("Trying train endpoint...sending training data")
     
     r = requests.post(API_HOST + TRAIN_API,json=TRAINING_DATA)
     
@@ -117,8 +117,8 @@ def predict():
 
 def main():
     test_endpoint()
-    train_model_without_file()
-    #train_model()
+#    train_model_without_file()
+    train_model()
     #predict()
     
 
