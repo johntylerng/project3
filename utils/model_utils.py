@@ -68,9 +68,15 @@ def train(data):
     
 
     cv = count_vectorizer.fit_transform(data['tags']).todense()
-    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
+#    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
+#    data = pd.concat([data,new_df], axis=1)
+    
+    for i, col in enumerate(count_vectorizer.get_feature_names()):
+        new_df = pd.SparseSeries(cv[:, i].toarray().ravel(), fill_value=0)
+    
     data = pd.concat([data,new_df], axis=1)
-
+    
+    
 #    cv = count_vectorizer.fit_transform(data['title'])
 #    title_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
 #    data = pd.concat([data,title_df], axis=1)
