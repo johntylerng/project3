@@ -62,6 +62,12 @@ def train(data):
     data['tags'] = data['tags'].apply(remove_punctuation)
     data['title']= data['title'].apply(remove_punctuation)
 #    print('title',data.title.sample(2))
+    
+    
+    X = data.drop(['video_id','title','channel_title','trending_date', 'category', 'published_date',\
+                  'published_time','thumbnail_link','comments_disabled',\
+                  'ratings_disabled','video_error_or_removed','description',\
+               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
 
 
 
@@ -73,12 +79,12 @@ def train(data):
 #    data = pd.concat([data,new_df], axis=1)
     
     
-    num_feats = count_vectorizer.get_feature_names()
-    print(num_feats[:10])
+#    num_feats = count_vectorizer.get_feature_names()
+#    print(num_feats[:10])
     
-    data = np.array(data)
-    data = sparse.hstack((word_count,\
-                          sparse.csr_matrix(data, dtype=object)))
+    X = np.array(X)
+    X = sparse.hstack((word_count,\
+                          sparse.csr_matrix(X))
     
     
 #    data = pd.concat([data,new_df], axis=1)
@@ -88,10 +94,10 @@ def train(data):
 #    title_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
 #    data = pd.concat([data,title_df], axis=1)
     
-    X = data.drop(['video_id','title','channel_title','trending_date', 'category', 'published_date',\
-                  'published_time','thumbnail_link','comments_disabled',\
-                  'ratings_disabled','video_error_or_removed','description',\
-               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
+#    X = data.drop(['video_id','title','channel_title','trending_date', 'category', 'published_date',\
+#                  'published_time','thumbnail_link','comments_disabled',\
+#                  'ratings_disabled','video_error_or_removed','description',\
+#               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
 
     features_name = X.columns
     print('features in X:',X.columns)
