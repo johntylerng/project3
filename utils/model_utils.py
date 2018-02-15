@@ -71,7 +71,7 @@ def train(data):
 
 
 
-    count_vectorizer = CountVectorizer()
+    count_vectorizer = CountVectorizer(stop_words='english')
     
 
     word_count_tag=count_vectorizer.fit_transform(data['tags'])
@@ -100,7 +100,7 @@ def train(data):
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
     features_name = X.columns
     print('X feature name',features_name)
-    print(count_vectorizer.get_feature_names)
+    print(list(count_vectorizer.get_feature_names))
     
 #    X= np.array(Z)
     
