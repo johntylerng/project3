@@ -27,6 +27,7 @@ average_rating =0
 
 
 def train(data):
+    global total_vote_average, average_rating
     print("Training data sample:\n", data.head(2))
     
     data['trending_date']= pd.to_datetime(data.trending_date,format='%y.%d.%m')
@@ -48,8 +49,8 @@ def train(data):
 
     total_vote_average = data['total_vote'].mean()
     average_rating = data['rating'].mean()
-    #print('total vote average',total_vote_average)
-    #print('average rating', average_rating)
+    print('total vote average',total_vote_average)
+    print('average rating', average_rating)
     
     data['weighted_rating'] = data.apply(compute_weighted_rating,axis=1)
     
@@ -232,8 +233,6 @@ def compute_weighted_rating(row):
     global total_vote_average, average_rating
     num = (total_vote_average*average_rating)+ (row['total_vote']*row['rating'])
     return num /(total_vote_average+row['total_vote'])
-
-
 
 
 def remove_punctuation(row):
