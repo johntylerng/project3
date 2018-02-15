@@ -276,6 +276,6 @@ def predict(data,model,model_columns):
     Z, y = cleaning_data(data,1)
     
     predictions = model.predict(Z).tolist()
-    predictions = [int(prediction) for prediction in predictions]
+    predictions = [prediction for prediction in predictions]
 
     return {'predictions': predictions}
