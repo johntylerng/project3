@@ -72,7 +72,8 @@ def train(data):
 #    data = pd.concat([data,new_df], axis=1)
     
     
-    num_feats = count_vectorizer.get_feature_names().values
+    num_feats = count_vectorizer.get_feature_names()
+    print('num feats',num_feats)
     new_df = sparse.hstack((count_vectorizer.get_feature_names(), num_feats))
     
     
