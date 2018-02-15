@@ -54,20 +54,20 @@ def train(data):
     
     data['weighted_rating'] = data.apply(compute_weighted_rating,axis=1)
     
-    print((data[['weighted_rating']].head(2)))
+#    print((data[['weighted_rating']].head(2)))
     data['video_bins'] = data.apply(assign_category_band,axis=1)
     
     data['tags'] = data['tags'].apply(remove_punctuation)
     data['title']= data['title'].apply(remove_punctuation)
-    print('title',data.title.sample(2))
+#    print('title',data.title.sample(2))
 
 
 
-    count_vectorizer = CountVectorizer()
-
-    cv = count_vectorizer.fit_transform(data['tags'])
-    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
-    data = pd.concat([data,new_df], axis=1)
+#    count_vectorizer = CountVectorizer()
+#
+#    cv = count_vectorizer.fit_transform(data['tags'])
+#    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
+#    data = pd.concat([data,new_df], axis=1)
 
 #    cv = count_vectorizer.fit_transform(data['title'])
 #    title_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
