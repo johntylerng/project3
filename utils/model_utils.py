@@ -100,7 +100,7 @@ def train(data):
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
     features_name = X.columns
     print('X feature name',features_name)
-    print(count_vectorizer.get_feature_names())
+    print(np.asarray(count_vectorizer.get_feature_names())[ch2.get_support()])
     
 #    X= np.array(Z)
     
