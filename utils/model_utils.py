@@ -100,8 +100,8 @@ def train(data):
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
     features_name = X.columns
     print('X feature name',features_name)
-    for i in count_vectorizer.get_feature_names():
-        print(i.encode('utf-8'))
+    #for i in count_vectorizer.get_feature_names():
+        #print(i.encode('utf-8'))
     
 #    X= np.array(Z)
     
@@ -124,11 +124,11 @@ def train(data):
 #    #model = DecisionTreeClassifier(min_samples_leaf=5)
     model = RandomForestClassifier(max_features='auto', \
                                    min_samples_leaf=20, n_estimators=10)
-#    start = time.time() 
+    start = time.time() 
     model.fit(X_train, y_train)
     model_columns = list(features_name)
      
-#    print('Trained in %.1f seconds' % (time.time() - start))
+    print('Trained in %.1f seconds' % (time.time() - start))
     print('Model  validation score: %s' % model.score(X_validate, y_validate))
     
     
