@@ -67,13 +67,14 @@ def train(data):
     count_vectorizer = CountVectorizer()
     
 
-    cv = count_vectorizer.fit_transform(data['tags']).todense()
+    count_vectorizer.fit_transform(data['tags'])
 #    new_df = pd.DataFrame(cv.toarray(), columns=count_vectorizer.get_feature_names())
 #    data = pd.concat([data,new_df], axis=1)
     
     
     num_feats = count_vectorizer.get_feature_names().values
     new_df = sparse.hstack((count_vectorizer.get_feature_names(), num_feats))
+    
     
     data = pd.concat([data,new_df], axis=1)
     
