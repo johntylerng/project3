@@ -225,7 +225,7 @@ def cleaning_data(data):
     
     word_count_title=count_vectorizer.fit_transform(data['title'])
     Z= sparse.hstack((word_count_title,Z))
-    
+    print('Z shape', Z.shape)
     
 #    data = pd.concat([data,new_df], axis=1)
 #    cv = count_vectorizer.fit_transform(data['title'])
