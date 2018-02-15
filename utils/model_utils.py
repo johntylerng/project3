@@ -233,13 +233,13 @@ def cleaning_data(data,text):
 #                  'ratings_disabled','video_error_or_removed','description',\
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
     if text==0:
-    features_name = list(X.columns)
+        features_name = list(X.columns)
 #    print('X feature name',features_name)
-    for i in count_vectorizer_tags.get_feature_names():
-        features_name.append(i.encode('utf-8'))
+        for i in count_vectorizer_tags.get_feature_names():
+            features_name.append(i.encode('utf-8'))
     
-    for i in count_vectorizer_title.get_feature_names():
-        features_name.append(i.encode('utf-8'))
+        for i in count_vectorizer_title.get_feature_names():
+            features_name.append(i.encode('utf-8'))
     
 #    X= np.array(Z)
     
