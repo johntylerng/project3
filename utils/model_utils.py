@@ -28,12 +28,14 @@ total_vote_average=0
 average_rating =0
 count_vectorizer_tags= CountVectorizer(stop_words='english')
 count_vectorizer_title= CountVectorizer(stop_words='english')
+features_name=[]
 
 
 
 
 
 def train(data):
+    global features_name
 #    global total_vote_average, average_rating
 ##    print("Training data sample:\n", data.head(2))
 #    
@@ -116,7 +118,7 @@ def train(data):
 #    y = data['video_bins']
 #    y = np.array(y)
     
-    Z, y, features_name = cleaning_data(data,0)
+    Z, y= cleaning_data(data,0)
     np.random.seed(42)
 #    
 #    split data into 60%, 20%, 20%
@@ -154,6 +156,7 @@ def train(data):
 #    return model
 
 def cleaning_data(data,text):
+    global features_name
     global total_vote_average, average_rating,count_vectorizer_tags,count_vectorizer_title
     
      
@@ -226,6 +229,7 @@ def cleaning_data(data,text):
 #                  'published_time','thumbnail_link','comments_disabled',\
 #                  'ratings_disabled','video_error_or_removed','description',\
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
+    
     if text==0:
         features_name = list(X.columns)
 #    print('X feature name',features_name)
@@ -243,7 +247,7 @@ def cleaning_data(data,text):
     y = data['video_bins']
     y = np.array(y)
         
-    return Z, y, features_name
+    return Z, y
 
 
 def assign_category_band(row):
@@ -269,7 +273,7 @@ def remove_punctuation(row):
 
 def predict(data,model,model_columns):
     
-    Z, y, features_name = cleaning_data(data,1)
+    Z, y = cleaning_data(data,1)
     
     predictions = model.predict(Z).tolist()
     predictions = [int(prediction) for prediction in predictions]
