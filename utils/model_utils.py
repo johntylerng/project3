@@ -111,11 +111,11 @@ def train(data):
 #
 #    
 #    #model = DecisionTreeClassifier(min_samples_leaf=5)
-     model = RandomForestClassifier(max_features='auto', \
+    model = RandomForestClassifier(max_features='auto', \
                                    min_samples_leaf=20, n_estimators=10)
 #    start = time.time() 
 #    model.fit(X_train, y_train)
-     model_columns = list(features_name)
+    model_columns = list(features_name)
      
 #    print('Trained in %.1f seconds' % (time.time() - start))
 #    print('Model  validation score: %s' % model.score(X_validate, y_validate))
