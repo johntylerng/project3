@@ -276,6 +276,8 @@ def predict(data,model,model_columns):
     Z, y = cleaning_data(data,1)
     
     predictions = model.predict(Z).tolist()
+    print(model.score(Z, y))
+    
     predictions = [prediction for prediction in predictions]
 
     return {'predictions': predictions}
