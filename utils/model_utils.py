@@ -134,7 +134,7 @@ def train(data):
     
     return model_columns, model
 
-def predict(df,model):
+def predict(data,model):
 
     global total_vote_average, average_rating
 #    print("Training data sample:\n", data.head(2))
