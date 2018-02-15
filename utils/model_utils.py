@@ -99,31 +99,31 @@ def train(data):
 #                  'ratings_disabled','video_error_or_removed','description',\
 #               'total_vote','rating','weighted_rating','video_bins','tags'],axis=1)
 
-    features_name = X.columns
-    print('features in X:',X.columns)
-    X = np.array(X)
-    y = data['video_bins']
-    y = np.array(y)
-    np.random.seed(42)
+#    features_name = X.columns
+#    print('features in X:',X.columns)
+#    X = np.array(X)
+#    y = data['video_bins']
+#    y = np.array(y)
+#    np.random.seed(42)
+#    
+#    #split data into 60%, 20%, 20%
+#    X_train_validate, X_test,y_train_validate,\
+#    y_test= train_test_split(X,y,test_size=0.20,random_state=0)
+#
+#    X_train, X_validate, y_train, y_validate = \
+#    train_test_split(X_train_validate,y_train_validate,\
+#                     test_size=0.25, random_state=0)
+#
+#    
+#    #model = DecisionTreeClassifier(min_samples_leaf=5)
+#    model = RandomForestClassifier(max_features='auto', \
+#                                   min_samples_leaf=20, n_estimators=10)
+#    start = time.time() 
+#    model.fit(X_train, y_train)
+#    model_columns = list(features_name)
     
-    #split data into 60%, 20%, 20%
-    X_train_validate, X_test,y_train_validate,\
-    y_test= train_test_split(X,y,test_size=0.20,random_state=0)
-
-    X_train, X_validate, y_train, y_validate = \
-    train_test_split(X_train_validate,y_train_validate,\
-                     test_size=0.25, random_state=0)
-
-    
-    #model = DecisionTreeClassifier(min_samples_leaf=5)
-    model = RandomForestClassifier(max_features='auto', \
-                                   min_samples_leaf=20, n_estimators=10)
-    start = time.time() 
-    model.fit(X_train, y_train)
-    model_columns = list(features_name)
-    
-    print('Trained in %.1f seconds' % (time.time() - start))
-    print('Model  validation score: %s' % model.score(X_validate, y_validate))
+#    print('Trained in %.1f seconds' % (time.time() - start))
+#    print('Model  validation score: %s' % model.score(X_validate, y_validate))
     
     
     return model_columns, model
