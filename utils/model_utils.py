@@ -82,8 +82,8 @@ def train(data):
 #    num_feats = count_vectorizer.get_feature_names()
 #    print(num_feats[:10])
     
-    Y = np.array(X)
-    Y = sparse.hstack((word_count, sparse.csr_matrix(X)))
+    X = np.array(X)
+    X = sparse.hstack((word_count, sparse.csr_matrix(X)))
     
 #    data = pd.concat([data,new_df], axis=1)
 #    cv = count_vectorizer.fit_transform(data['title'])
